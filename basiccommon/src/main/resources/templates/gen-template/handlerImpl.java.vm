@@ -1,0 +1,59 @@
+package ${package.ServiceImpl};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import com.person.norma.basiccommon.core.Query;
+import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.person.norma.basiccommon.core.PageQuery;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Map;
+
+/**
+ * @Author： ${author}
+ * @Description： $!{table.comment} 服务实现类
+ * @Date： ${date}
+ * @Modified By：
+ */
+@Slf4j
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends AbstractCrudHandlerImpl<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    #set($lowerCaseMapperName = $table.mapperName.substring(0,1).toLowerCase() + $table.mapperName.substring(1,$table.mapperName.length()))
+
+    @Autowired
+    private ${table.mapperName} ${lowerCaseMapperName};
+
+    @Override
+    public ${table.mapperName} getDao() {
+        return ${lowerCaseMapperName};
+    }
+
+    /**
+     * 按查询条件分页获取数据列表的方法覆盖，添加自定义的条件查询
+     *
+     * @return IPage<Map<String, Object>>
+     * **/
+    @Override
+    public IPage<${entity}> listPageByQuery(Query pageQuery){
+        Page<${entity}> page = new Page<>(pageQuery.getPage(), pageQuery.getLimit());
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+        // TO ADD CUSTOM QUERY CONDITIONS
+        // queryWrapper.eq(FieldName, pageQuery.get(paramName).toString());
+        IPage<${entity}> listIPage = this.page(page,queryWrapper);
+        return listIPage;
+    }
+
+}
+#end

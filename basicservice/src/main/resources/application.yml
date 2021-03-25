@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: oracle.jdbc.driver.OracleDriver
+
+    masterUrl: jdbc:oracle:thin:@//10.119.31.227:8019/cargodbpd
+    username: FREIGHTSYS_TEST
+    password: FREdb.PKX
+
+    cluster1Url: jdbc:oracle:thin:@//10.119.31.227:8019/cargodbpd
+    username1: PARKDB_TEST
+    password1: PARdb.PKX

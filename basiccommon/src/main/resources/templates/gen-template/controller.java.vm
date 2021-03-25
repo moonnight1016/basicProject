@@ -1,0 +1,116 @@
+package ${package.Controller};
+
+import com.person.norma.basiccommon.core.Result;
+import com.person.norma.basiccommon.core.Query;
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${entity};
+import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
+
+/**
+ * @Author： ${author}
+ * @Description： $!{table.comment} 前端控制器
+ * @Date： ${date}
+ * @Modified By：
+ */
+@Slf4j
+@Api(value = "#if(${table.comment})${table.comment}#end 控制层", tags = {"#if(${table.comment})${table.comment}#end 操作接口"})
+#if(${cfg.restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} {
+#else
+public class ${table.controllerName} {
+#end
+
+    #set($lowerCaseServiceName = $table.serviceName.substring(0,1).toLowerCase() + $table.serviceName.substring(1,$table.serviceName.length()))
+
+    @Autowired
+    private ${table.serviceName} ${lowerCaseServiceName};
+
+    #set($lowrEntity = $table.entityName.substring(0,1).toLowerCase() + $table.entityName.substring(1,$table.entityName.length()))
+
+    protected ${table.serviceName} getHandler() {
+        return ${lowerCaseServiceName};
+    }
+
+    /**
+    * 分页查询
+    *
+    * @param map
+    */
+    @ApiOperation(value = "分页查询数据列表", notes = "分页查询数据列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", paramType="query",  dataType = "String", value = "当前页码", required = true),
+            @ApiImplicitParam(name = "limit", paramType="query", dataType = "String", value = "每页的记录数", required = true)
+    })
+    @GetMapping
+    @RequiresPermissions("${table.controllerName}:list")
+    public Result list(@ApiParam(hidden = true) @RequestParam Map<String, Object> map) throws Exception {
+        Query query = new Query(map);
+        return Result.ok(getHandler().listPageByQuery(query));
+    }
+
+    /**
+    * 查询实体信息
+    *
+    * @param id
+    */
+    @ApiOperation(value = "按ID查询单条记录", notes = "按ID查询单条记录")
+    @GetMapping("/{id}")
+    @RequiresPermissions("${table.controllerName}:info")
+    public Result info(@PathVariable Long id) {
+        ${table.entityName} t = getHandler().getById(id);
+        return Result.ok(t);
+    }
+
+    @ApiOperation(value = "保存实体数据", notes = "保存实体数据")
+    @PostMapping
+    @RequiresPermissions("${table.controllerName}:save")
+    public Result save(@RequestBody ${table.entityName} t) {
+        getHandler().save(t);
+        return Result.ok(t);
+    }
+
+    @ApiOperation(value = "更新实体数据", notes = "更新实体数据")
+    @PutMapping
+    @RequiresPermissions("${table.controllerName}:update")
+    public Result update(@RequestBody ${table.entityName} t) {
+        getHandler().updateById(t);
+        return Result.ok(t);
+    }
+
+    @ApiOperation(value = "删除实体数据", notes = "删除实体数据")
+    @DeleteMapping("/{id}")
+    @RequiresPermissions("${table.controllerName}:delete")
+    public Result delete(@PathVariable Long id) {
+        getHandler().removeById(id);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "批量删除实体数据", notes = "批量删除实体数据")
+    @DeleteMapping
+    @RequiresPermissions("${table.controllerName}:delete_list")
+    public Result delete(@ApiParam(value = "ID数组如：[41,42,43, ...]", required = true) @RequestBody Long[] ids) {
+        getHandler().removeByIds(Arrays.asList(ids));
+        return Result.ok();
+    }
+
+}
+
+#end
