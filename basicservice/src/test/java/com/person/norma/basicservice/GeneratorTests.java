@@ -35,7 +35,7 @@ public class GeneratorTests {
         ApplicationContext context = GeneratorContext.getApplicationContext();
         config = context.getBean(DBConfig.class);
         service = context.getBean(GeneratorService.class);
-        doGenerator("sc_bcst_xml_status", false);
+        doGenerator("sys_user", false);
     }
 
     /**

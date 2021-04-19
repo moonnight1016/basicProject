@@ -2,10 +2,14 @@ gen:
     enabled: enabled
     # 数据源配置
     db:
-        url: jdbc:oracle:thin:@//10.119.31.227:8019/cargodbpd
-        username: FREIGHTSYS_TEST
-        password: FREdb.PKX
-        driver: oracle.jdbc.driver.OracleDriver
+        #url: jdbc:oracle:thin:@//10.119.31.227:8019/cargodbpd
+        #username: FREIGHTSYS_TEST
+        #password: FREdb.PKX
+        #driver: oracle.jdbc.driver.OracleDriver
+        url: jdbc:mysql://192.168.0.101:3306/basicDB?serverTimezone=UTC&autoReconnect=true&useSSL=true
+        username: root
+        password: Hezian1016
+        driver: com.mysql.cj.jdbc.Driver
     #此处为本项目src所在路径（代码生成器输出路径）,注意一定是当前项目所在的目录哟
     outpath: E:\\test
     #mapper.xml SQL映射文件目录
