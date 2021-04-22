@@ -28,7 +28,7 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 
 }
 #else
-public class ${table.serviceImplName} extends AbstractCrudHandlerImpl<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+public class ${table.serviceImplName} extends AbstractCrudServiceImpl<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
     #set($lowerCaseMapperName = $table.mapperName.substring(0,1).toLowerCase() + $table.mapperName.substring(1,$table.mapperName.length()))
 

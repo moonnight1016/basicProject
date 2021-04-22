@@ -157,8 +157,8 @@ public class GeneratorTests {
         tc.setEntity("/templates/gen-template/entity.java.vm");
         tc.setMapper("/templates/gen-template/dao.java.vm");
         tc.setXml("/templates/gen-template/dao.xml.vm");
-        tc.setService("/templates/gen-template/handler.java.vm");
-        tc.setServiceImpl("/templates/gen-template/handlerImpl.java.vm");
+        tc.setService("/templates/gen-template/service.java.vm");
+        tc.setServiceImpl("/templates/gen-template/serviceImpl.java.vm");
         generator.setTemplate(tc);
         // 执行生成
         generator.execute();

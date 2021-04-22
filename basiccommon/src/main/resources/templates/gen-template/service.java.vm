@@ -17,7 +17,7 @@ import java.util.Map;
 #if(${kotlin})
 interface ${table.serviceName} : ${superServiceClass}<${entity}>
 #else
-public interface ${table.serviceName} extends AbstractCrudHandler<${entity}> {
+public interface ${table.serviceName} extends AbstractCrudService<${entity}> {
 
 }
 #end
