@@ -30,6 +30,9 @@ import java.util.Map;
 @ApiModel(value = "导出接口-入参")
 public class ExportParamsVO {
 
+    @ApiModelProperty(value = "文件名称")
+    private String excelName = "excel";
+
     @ApiModelProperty(value = "分页名称")
     private String sheetName = "sheet1";
 
